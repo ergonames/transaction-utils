@@ -16,12 +16,31 @@ object DatabaseUtils {
         if (resultSet.next()) {
             val registrationInfo = RegistrationInfo(
                 resultSet.getString("mint_transaction_id"),
-                resultSet.getString("spent_transaction_id"),
-                ErgoNameHash(resultSet.getBytes("ergoname_registered")),
-                ErgoId.create(resultSet.getBytes("ergoname_token_id"))
+                resultSet.getString("spend_transaction_id"),
+                ErgoName(resultSet.getString("ergoname_registered")).toErgoNameHash,
+                ErgoId.create(resultSet.getString("ergoname_token_id"))
             )
             connection.close()
             registrationInfo
+        } else {
+            connection.close()
+            null
+        }
+    }
+
+    def getMostRecentMintTransactionId(): String = {
+        val connection = DriverManager.getConnection(databasePath)
+        val statement = connection.createStatement()
+        val resultSet = statement.executeQuery("SELECT * FROM confirmed_registry_insertions WHERE spend_transaction_id IS NULL")
+        if (resultSet.next()) {
+            val registrationInfo = RegistrationInfo(
+                resultSet.getString("mint_transaction_id"),
+                resultSet.getString("spend_transaction_id"),
+                ErgoName(resultSet.getString("ergoname_registered")).toErgoNameHash,
+                ErgoId.create(resultSet.getString("ergoname_token_id"))
+            )
+            connection.close()
+            registrationInfo.mintTransactionId
         } else {
             connection.close()
             null

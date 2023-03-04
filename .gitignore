@@ -12,3 +12,5 @@ META-INF/
 out/
 
 target/
+
+config.json
