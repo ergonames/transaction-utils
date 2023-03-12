@@ -18,7 +18,8 @@ import io.getblok.getblok_plasma.collections.Proof
 
 object Main {
 
-  val explorerApiUrl = "https://api-testnet.ergoplatform.com"
+  // val explorerApiUrl = "https://api-testnet.ergoplatform.com"
+  val explorerApiUrl = "http://54.241.215.24:8080"
   val initialTransactionId = "e271e7cb9b9c7932546e8a5746c91cb1c0f1114ff173a90e1fe979170f71c579"
   val liveMode = false
 

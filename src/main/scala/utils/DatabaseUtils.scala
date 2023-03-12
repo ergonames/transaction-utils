@@ -12,7 +12,7 @@ object DatabaseUtils {
     def readRegistryInsertion(mintTransactionId: String): RegistrationInfo = {
         val connection = DriverManager.getConnection(databasePath)
         val statement = connection.createStatement()
-        val resultSet = statement.executeQuery(s"SELECT * FROM registry WHERE mint_transaction_id = '$mintTransactionId'")
+        val resultSet = statement.executeQuery(s"SELECT * FROM confirmed_registry_insertions WHERE mint_transaction_id = '$mintTransactionId'")
         if (resultSet.next()) {
             val registrationInfo = RegistrationInfo(
                 resultSet.getString("mint_transaction_id"),
